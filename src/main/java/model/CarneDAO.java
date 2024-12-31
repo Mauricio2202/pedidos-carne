@@ -34,12 +34,12 @@ public class CarneDAO {
     }
     
     public boolean guardarCliente(Cliente cliente) {
-        String sql = "INSERT INTO clientes (nombre, telefono, direccion, nota) VALUES (?, ?, ?, ?)";
-        try (Connection con = conexion.estableceConexion();
+        String sql = "INSERT INTO clientes (nombre, telefono, correo, nota) VALUES (?, ?, ?, ?)";
+        try (Connection con = cConnection.estableceConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {
             ps.setString(1, cliente.getNombre());
             ps.setString(2, cliente.getTelefono());
-            ps.setString(3, cliente.getDireccion());
+            ps.setString(3, cliente.getCorreo());
             ps.setString(4, cliente.getNota());
             ps.executeUpdate();
             return true;

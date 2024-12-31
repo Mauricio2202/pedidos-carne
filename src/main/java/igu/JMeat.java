@@ -2,6 +2,8 @@
 package igu;
 
 import controller.Cliente;
+import javax.swing.JOptionPane;
+import model.CarneDAO;
 
 public class JMeat extends javax.swing.JFrame {
     
@@ -17,12 +19,21 @@ public class JMeat extends javax.swing.JFrame {
     public Cliente obtenerDatosFormulario() {
     String nombre = txtClientName.getText().trim();
     String telefono = txtClientPhone.getText().trim();
-    String direccion = txtClientAddress.getText().trim();
+    String correo = txtCorreo.getText().trim();
     String nota = txtNoteClient.getText().trim();
-
-    return new Cliente(nombre, telefono, direccion, nota);
+    return new Cliente(nombre, telefono, correo, nota);
 }
     
+    private void validarFormulario() {
+    boolean habilitar = !txtClientName.getText().trim().isEmpty() &&
+                        !txtClientPhone.getText().trim().isEmpty() &&
+                        !txtCorreo.getText().trim().isEmpty() &&
+                        !txtNoteClient.getText().trim().isEmpty();
+
+    btnGuardar.setEnabled(habilitar);
+    btnLimpiar.setEnabled(habilitar);
+}
+
     
 
     @SuppressWarnings("unchecked")
@@ -38,7 +49,7 @@ public class JMeat extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         txtClientPhone = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        txtClientAddress = new javax.swing.JTextField();
+        txtCorreo = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         txtNoteClient = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
@@ -91,10 +102,10 @@ public class JMeat extends javax.swing.JFrame {
         txtClientPhone.setForeground(new java.awt.Color(43, 45, 66));
 
         jLabel5.setForeground(new java.awt.Color(204, 204, 204));
-        jLabel5.setText("Dirección:");
+        jLabel5.setText("Correo");
 
-        txtClientAddress.setBackground(new java.awt.Color(141, 153, 174));
-        txtClientAddress.setForeground(new java.awt.Color(43, 45, 66));
+        txtCorreo.setBackground(new java.awt.Color(141, 153, 174));
+        txtCorreo.setForeground(new java.awt.Color(43, 45, 66));
 
         jLabel6.setForeground(new java.awt.Color(204, 204, 204));
         jLabel6.setText("Nota: (Opcional)");
@@ -151,7 +162,7 @@ public class JMeat extends javax.swing.JFrame {
                                             .addGap(16, 16, 16)))
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtClientName, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
-                                        .addComponent(txtClientAddress)
+                                        .addComponent(txtCorreo)
                                         .addComponent(txtClientPhone)))))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -171,7 +182,7 @@ public class JMeat extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
-                    .addComponent(txtClientAddress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jLabel6)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -351,13 +362,22 @@ public class JMeat extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        
+        CarneDAO carneDAO = new CarneDAO();
+        Cliente cliente = obtenerDatosFormulario();
+        boolean resultado = carneDAO.guardarCliente(cliente);
+        if (resultado) {
+            JOptionPane.showMessageDialog(this, "Cliente guardado exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el cliente");
+        }
     }//GEN-LAST:event_btnGuardarActionPerformed
 
+    
+    
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         txtClientName.setText("");
         txtClientPhone.setText("");
-        txtClientAddress.setText("");
+        txtCorreo.setText("");
         txtNoteClient.setText("");
         btnGuardar.setEnabled(false);
         btnLimpiar.setEnabled(false);
@@ -425,9 +445,9 @@ public class JMeat extends javax.swing.JFrame {
     private javax.swing.JLabel lblMeatImage;
     private javax.swing.JPanel panelMeat;
     private javax.swing.JProgressBar progressBar;
-    public javax.swing.JTextField txtClientAddress;
     public javax.swing.JTextField txtClientName;
     public javax.swing.JTextField txtClientPhone;
+    public javax.swing.JTextField txtCorreo;
     private javax.swing.JTextField txtKilograms;
     public javax.swing.JTextField txtNoteClient;
     // End of variables declaration//GEN-END:variables

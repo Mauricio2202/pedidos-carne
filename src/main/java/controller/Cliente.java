@@ -1,17 +1,16 @@
-
 package controller;
 
 public class Cliente {
     
     private String nombre;
     private String telefono;
-    private String direccion;
+    private String correo;
     private String nota;
     
-    public Cliente(String nombre, String telefono, String direccion, String nota) {
+    public Cliente(String nombre, String telefono, String correo, String nota) {
         this.nombre = nombre;
         this.telefono = telefono;
-        this.direccion = direccion;
+        this.correo = correo;
         this.nota = nota;
     }
     
@@ -33,12 +32,12 @@ public class Cliente {
         this.telefono = telefono;
     }
 
-    public String getDireccion() {
-        return direccion;
+    public String getCorreo() {
+        return correo;
     }
 
-    public void setDireccion(String direccion) {
-        this.direccion = direccion;
+    public void setCorreo(String correo) {
+        this.correo = correo;
     }
 
     public String getNota() {
@@ -48,5 +47,4 @@ public class Cliente {
     public void setNota(String nota) {
         this.nota = nota;
     }
-    
 }
