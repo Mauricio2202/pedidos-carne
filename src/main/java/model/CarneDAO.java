@@ -33,7 +33,22 @@ public class CarneDAO {
         return tiposCarne;
     }
     
+    public List<Double> obtenerPreciosCarne() {
+        List<Double> preciosCarne = new ArrayList<>();
+        Connection conexion = cConnection.estableceConexion();
+        try (Statement statement = conexion.createStatement();
+                ResultSet resultSet = statement.executeQuery("SELECT precio FROM tipos_carne")) {
+            while (resultSet.next()) {
+                preciosCarne.add(resultSet.getDouble("precio"));
+            }
+        } catch (Exception e){
+            System.err.println("Error al obtener los precios de la carne: " + e.getMessage());
+        }
+        return preciosCarne;
+    }
+    
     public boolean guardarCliente(Cliente cliente) {
+        
         String sql = "INSERT INTO clientes (nombre, telefono, correo, nota) VALUES (?, ?, ?, ?)";
         try (Connection con = cConnection.estableceConexion();
              PreparedStatement ps = con.prepareStatement(sql)) {

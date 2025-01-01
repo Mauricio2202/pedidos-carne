@@ -2,6 +2,10 @@
 package igu;
 
 import controller.Cliente;
+import java.net.URL;
+import java.util.List;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
 import model.CarneDAO;
 
@@ -14,7 +18,11 @@ public class JMeat extends javax.swing.JFrame {
     public JMeat() {
         initComponents();
         this.setLocationRelativeTo(this);
+        comboBoxCarne = getCmbMeat();
     }
+    
+    private JComboBox<String> comboBoxCarne;
+
     
     public Cliente obtenerDatosFormulario() {
     String nombre = txtClientName.getText().trim();
@@ -31,7 +39,6 @@ public class JMeat extends javax.swing.JFrame {
                         !txtNoteClient.getText().trim().isEmpty();
 
     btnGuardar.setEnabled(habilitar);
-    btnLimpiar.setEnabled(habilitar);
 }
 
     
@@ -53,17 +60,16 @@ public class JMeat extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         txtNoteClient = new javax.swing.JTextField();
         btnGuardar = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
         cmbMeat = new javax.swing.JComboBox<>();
         jLabel8 = new javax.swing.JLabel();
         txtKilograms = new javax.swing.JTextField();
-        btnConfirmarPedido = new javax.swing.JButton();
         jLabel9 = new javax.swing.JLabel();
-        lblEspecificaciones = new javax.swing.JLabel();
+        txtEspecificaciones = new javax.swing.JTextField();
+        btnPedir = new javax.swing.JButton();
         progressBar = new javax.swing.JProgressBar();
-        lblMeatImage = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -121,14 +127,6 @@ public class JMeat extends javax.swing.JFrame {
             }
         });
 
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -141,10 +139,6 @@ public class JMeat extends javax.swing.JFrame {
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(22, 22, 22)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 47, Short.MAX_VALUE)
-                                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addComponent(txtNoteClient)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel6)
@@ -163,7 +157,10 @@ public class JMeat extends javax.swing.JFrame {
                                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                         .addComponent(txtClientName, javax.swing.GroupLayout.DEFAULT_SIZE, 213, Short.MAX_VALUE)
                                         .addComponent(txtCorreo)
-                                        .addComponent(txtClientPhone)))))))
+                                        .addComponent(txtClientPhone))))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(94, 94, 94)
+                        .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -188,9 +185,7 @@ public class JMeat extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNoteClient, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnLimpiar)
-                    .addComponent(btnGuardar))
+                .addComponent(btnGuardar)
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
@@ -205,12 +200,16 @@ public class JMeat extends javax.swing.JFrame {
 
         txtKilograms.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-        btnConfirmarPedido.setText("Confirmar pedido");
-        btnConfirmarPedido.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
         jLabel9.setText("Especificaciones (Opcional)");
 
-        lblEspecificaciones.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        txtEspecificaciones.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        btnPedir.setText("Pedir");
+        btnPedir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPedirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -223,17 +222,18 @@ public class JMeat extends javax.swing.JFrame {
                         .addComponent(jLabel7))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(98, 98, 98)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnConfirmarPedido)
-                            .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                .addComponent(txtKilograms, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel8))))
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(txtKilograms, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel8)))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(25, 25, 25)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(cmbMeat, 0, 300, Short.MAX_VALUE)
                             .addComponent(jLabel9)
-                            .addComponent(lblEspecificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                            .addComponent(txtEspecificaciones)))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(126, 126, 126)
+                        .addComponent(btnPedir)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
@@ -246,18 +246,23 @@ public class JMeat extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel9)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(lblEspecificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtEspecificaciones, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtKilograms, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnConfirmarPedido)
-                .addGap(20, 20, 20))
+                .addGap(18, 18, 18)
+                .addComponent(btnPedir)
+                .addGap(14, 14, 14))
         );
 
-        lblMeatImage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblMeatImage.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+        jButton1.setText("Ver menú");
+        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout panelMeatLayout = new javax.swing.GroupLayout(panelMeat);
         panelMeat.setLayout(panelMeatLayout);
@@ -268,11 +273,11 @@ public class JMeat extends javax.swing.JFrame {
                 .addGroup(panelMeatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(43, 43, 43)
+                .addGap(42, 42, 42)
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(66, 66, 66)
-                .addComponent(lblMeatImage, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(64, 64, 64))
+                .addGap(113, 113, 113)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(96, 96, 96))
             .addGroup(panelMeatLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
                 .addComponent(progressBar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -284,11 +289,10 @@ public class JMeat extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(28, 28, 28)
-                .addGroup(panelMeatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelMeatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addComponent(lblMeatImage, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(panelMeatLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 110, Short.MAX_VALUE)
                 .addComponent(progressBar, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(34, 34, 34))
@@ -373,16 +377,75 @@ public class JMeat extends javax.swing.JFrame {
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     
-    
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        txtClientName.setText("");
-        txtClientPhone.setText("");
-        txtCorreo.setText("");
-        txtNoteClient.setText("");
-        btnGuardar.setEnabled(false);
-        btnLimpiar.setEnabled(false);
-    }//GEN-LAST:event_btnLimpiarActionPerformed
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        JMenu menu = new JMenu();
+        menu.setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnPedirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPedirActionPerformed
+    CarneDAO carneDAO = new CarneDAO();
+    Cliente cliente = obtenerDatosFormulario();
+    List<String> tiposCarne = carneDAO.obtenerTiposCarne();
+    List<Double> preciosCarne = carneDAO.obtenerPreciosCarne();
+
+    if (tiposCarne != null && !tiposCarne.isEmpty() && preciosCarne != null && !preciosCarne.isEmpty()) {
+        boolean resultadoCliente = carneDAO.guardarCliente(cliente);
+
+        if (resultadoCliente) {
+            // Obtener datos del pedido
+            String tipoCarneSeleccionado = (String) cmbMeat.getSelectedItem();
+            String especificaciones = txtEspecificaciones.getText().trim(); // Obtén las especificaciones opcionales
+            double cantidadKg = 0;
+            try {
+                cantidadKg = Double.parseDouble(txtKilograms.getText().trim()); // Obtén la cantidad en kg
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para los kilogramos.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Buscar el índice del tipo de carne seleccionado
+            int index = tiposCarne.indexOf(tipoCarneSeleccionado);
+            double precioPorKg = preciosCarne.get(index);
+
+            double precioTotal = cantidadKg * precioPorKg;
+
+            // Generar el ticket
+            String ticket = "Cliente: " + cliente.getNombre() + "\n"
+                    + "Tipo de Carne: " + tipoCarneSeleccionado + "\n"
+                    + "Especificaciones: " + especificaciones + "\n"
+                    + "Cantidad: " + cantidadKg + " kg\n"
+                    + "Precio Total: $" + precioTotal;
+
+            System.out.println(ticket);
+
+            // Opcional: Mostrar el ticket en un diálogo
+            JOptionPane.showMessageDialog(this, ticket, "Ticket de Pedido", JOptionPane.INFORMATION_MESSAGE);
+
+            // Guardar el pedido en la base de datos si es necesario
+            // carneDAO.guardarPedido(cliente, tipoCarneSeleccionado, especificaciones, cantidadKg, precioTotal);
+
+            JOptionPane.showMessageDialog(this, "Cliente y pedido guardados exitosamente");
+        } else {
+            JOptionPane.showMessageDialog(this, "Error al guardar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    } else {
+        JOptionPane.showMessageDialog(this, "Error al obtener los tipos de carne o precios.", "Error", JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_btnPedirActionPerformed
+
+    private void cargarTiposCarne() {
+        CarneDAO carneDAO = new CarneDAO();
+        List<String> tiposCarne = carneDAO.obtenerTiposCarne();
+        comboBoxCarne.removeAllItems();
+        for (String tipo : tiposCarne) {
+            comboBoxCarne.addItem(tipo);
+        }
+    }
+    
+    public void recargarTiposCarne() {
+        cargarTiposCarne(); 
+    }
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -416,10 +479,10 @@ public class JMeat extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnConfirmarPedido;
     private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
+    private javax.swing.JButton btnPedir;
     public javax.swing.JComboBox<String> cmbMeat;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -441,13 +504,12 @@ public class JMeat extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
-    private javax.swing.JLabel lblEspecificaciones;
-    private javax.swing.JLabel lblMeatImage;
     private javax.swing.JPanel panelMeat;
     private javax.swing.JProgressBar progressBar;
     public javax.swing.JTextField txtClientName;
     public javax.swing.JTextField txtClientPhone;
     public javax.swing.JTextField txtCorreo;
+    private javax.swing.JTextField txtEspecificaciones;
     private javax.swing.JTextField txtKilograms;
     public javax.swing.JTextField txtNoteClient;
     // End of variables declaration//GEN-END:variables
