@@ -1,4 +1,5 @@
 igu\JMeat$4.class
+igu\JMeat$9.class
 model\CarneDAO.class
 model\Carne.class
 igu\JMeat.class
@@ -7,7 +8,12 @@ igu\JMenu$1.class
 controller\Cliente.class
 igu\JMeat$1.class
 com\todocodeacademy\pedidoscarne\PedidosCarne.class
+igu\JMeat$10.class
+igu\JMeat$6.class
 igu\JMenu$2.class
 igu\JMeat$3.class
+igu\JMeat$8.class
+igu\JMeat$7.class
 igu\JMeat$2.class
+igu\JMeat$5.class
 model\CConection.class

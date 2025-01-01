@@ -7,6 +7,8 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JOptionPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import model.CarneDAO;
 
 public class JMeat extends javax.swing.JFrame {
@@ -17,6 +19,9 @@ public class JMeat extends javax.swing.JFrame {
 
     public JMeat() {
         initComponents();
+        inicializarListeners();
+        btnGuardar.setEnabled(false); 
+        btnPedir.setEnabled(false);
         this.setLocationRelativeTo(this);
         comboBoxCarne = getCmbMeat();
     }
@@ -389,45 +394,39 @@ public class JMeat extends javax.swing.JFrame {
     List<Double> preciosCarne = carneDAO.obtenerPreciosCarne();
 
     if (tiposCarne != null && !tiposCarne.isEmpty() && preciosCarne != null && !preciosCarne.isEmpty()) {
-        boolean resultadoCliente = carneDAO.guardarCliente(cliente);
-
-        if (resultadoCliente) {
-            // Obtener datos del pedido
-            String tipoCarneSeleccionado = (String) cmbMeat.getSelectedItem();
-            String especificaciones = txtEspecificaciones.getText().trim(); // Obtén las especificaciones opcionales
-            double cantidadKg = 0;
-            try {
-                cantidadKg = Double.parseDouble(txtKilograms.getText().trim()); // Obtén la cantidad en kg
-            } catch (NumberFormatException e) {
-                JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para los kilogramos.", "Error", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Buscar el índice del tipo de carne seleccionado
-            int index = tiposCarne.indexOf(tipoCarneSeleccionado);
-            double precioPorKg = preciosCarne.get(index);
-
-            double precioTotal = cantidadKg * precioPorKg;
-
-            // Generar el ticket
-            String ticket = "Cliente: " + cliente.getNombre() + "\n"
-                    + "Tipo de Carne: " + tipoCarneSeleccionado + "\n"
-                    + "Especificaciones: " + especificaciones + "\n"
-                    + "Cantidad: " + cantidadKg + " kg\n"
-                    + "Precio Total: $" + precioTotal;
-
-            System.out.println(ticket);
-
-            // Opcional: Mostrar el ticket en un diálogo
-            JOptionPane.showMessageDialog(this, ticket, "Ticket de Pedido", JOptionPane.INFORMATION_MESSAGE);
-
-            // Guardar el pedido en la base de datos si es necesario
-            // carneDAO.guardarPedido(cliente, tipoCarneSeleccionado, especificaciones, cantidadKg, precioTotal);
-
-            JOptionPane.showMessageDialog(this, "Cliente y pedido guardados exitosamente");
-        } else {
-            JOptionPane.showMessageDialog(this, "Error al guardar el cliente", "Error", JOptionPane.ERROR_MESSAGE);
+        // Obtener datos del pedido
+        String tipoCarneSeleccionado = (String) cmbMeat.getSelectedItem();
+        String especificaciones = txtEspecificaciones.getText().trim(); // Obtén las especificaciones opcionales
+        double cantidadKg = 0;
+        try {
+            cantidadKg = Double.parseDouble(txtKilograms.getText().trim()); // Obtén la cantidad en kg
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Por favor, ingrese un valor numérico válido para los kilogramos.", "Error", JOptionPane.ERROR_MESSAGE);
+            return;
         }
+
+        // Buscar el índice del tipo de carne seleccionado
+        int index = tiposCarne.indexOf(tipoCarneSeleccionado);
+        double precioPorKg = preciosCarne.get(index);
+
+        double precioTotal = cantidadKg * precioPorKg;
+
+        // Generar el ticket
+        String ticket = "Cliente: " + cliente.getNombre() + "\n"
+                + "Tipo de Carne: " + tipoCarneSeleccionado + "\n"
+                + "Especificaciones: " + especificaciones + "\n"
+                + "Cantidad: " + cantidadKg + " kg\n"
+                + "Precio Total: $" + precioTotal;
+
+        System.out.println(ticket);
+
+        // Opcional: Mostrar el ticket en un diálogo
+        JOptionPane.showMessageDialog(this, ticket, "Ticket de Pedido", JOptionPane.INFORMATION_MESSAGE);
+
+        // Guardar el pedido en la base de datos si es necesario
+        // carneDAO.guardarPedido(cliente, tipoCarneSeleccionado, especificaciones, cantidadKg, precioTotal);
+
+        JOptionPane.showMessageDialog(this, "Cliente y pedido guardados exitosamente");
     } else {
         JOptionPane.showMessageDialog(this, "Error al obtener los tipos de carne o precios.", "Error", JOptionPane.ERROR_MESSAGE);
     }
@@ -445,6 +444,74 @@ public class JMeat extends javax.swing.JFrame {
     public void recargarTiposCarne() {
         cargarTiposCarne(); 
     }
+    
+    // Llama a este método para inicializar los listeners
+private void inicializarListeners() {
+    txtClientName.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    txtClientPhone.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    txtCorreo.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    txtNoteClient.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    txtEspecificaciones.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    txtKilograms.getDocument().addDocumentListener(new DocumentListener() {
+        public void changedUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void removeUpdate(DocumentEvent e) { actualizarProgreso(); }
+        public void insertUpdate(DocumentEvent e) { actualizarProgreso(); }
+    });
+
+    cmbMeat.addActionListener(e -> actualizarProgreso());
+}
+
+private void actualizarProgreso() {
+    int progreso = 0;
+    int totalCampos = 7; // Nombre, Teléfono, Correo, Nota, Carne, Especificaciones, Kilogramos
+
+    if (!txtClientName.getText().trim().isEmpty()) progreso++;
+    if (!txtClientPhone.getText().trim().isEmpty()) progreso++;
+    if (!txtCorreo.getText().trim().isEmpty()) progreso++;
+    if (!txtNoteClient.getText().trim().isEmpty()) progreso++;
+    if (cmbMeat.getSelectedItem() != null) progreso++;
+    if (!txtEspecificaciones.getText().trim().isEmpty()) progreso++;
+    if (!txtKilograms.getText().trim().isEmpty()) progreso++;
+
+    int progresoPorcentaje = (progreso * 100) / totalCampos;
+    progressBar.setValue(progresoPorcentaje);
+    
+    if (progresoPorcentaje == 100) {
+        btnGuardar.setEnabled(true);
+        btnPedir.setEnabled(true);
+    } else {
+        btnGuardar.setEnabled(false); 
+        btnPedir.setEnabled(false);
+    }
+}
+
+
+
     
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
